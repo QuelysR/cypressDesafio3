@@ -3,8 +3,10 @@
 import { RegistroPage } from "../support/pages/registroPage"
 import { LoginPage } from "../support/pages/loginPage"
 import { HomePage } from "../support/pages/homePage"
-import {Navbar} from "../support/pages/navbar"
-import {ListProducts} from "../support/pages/listProducts"
+import { Navbar } from "../support/pages/navbar"
+import { ListProducts } from "../support/pages/listProducts"
+import { CartShoppingPage } from "../support/pages/cartShoppingPage"
+
 
 describe('Tercer Desafio', () => {
     let datosLogin, datosProductos
@@ -13,6 +15,8 @@ describe('Tercer Desafio', () => {
     const homePage = new HomePage();
     const navbar = new Navbar();
     const listProducts = new ListProducts();
+    const cartShoppingPage = new CartShoppingPage();
+
 
     before("Before", () => {
         cy.fixture("loginData").then(datos => {
@@ -32,15 +36,14 @@ describe('Tercer Desafio', () => {
 
     it("Realizar una Compra", () => {
         navbar.verificarUsuario(datosLogin.usuario)
-        listProducts.seleccionarprimerProducto(datosProductos.primerProducto)
-        listProducts.cerrarModalbutton() 
-        listProducts.seleccionarsegundoProducto()
-        listProducts.cerrarModalbutton()
+        listProducts.seleccionarProducto(datosProductos.primerProducto)
+        listProducts.seleccionarProducto(datosProductos.segundoProducto)
         listProducts.clickgoShoppingCartButon()
-        listProducts.validarNombreProductomm(datosProductos.primerProducto,datosProductos.primeroprecioProducto)
-        listProducts.validarNombreProductomm(datosProductos.segundoProducto,datosProductos.segundoprecioProducto)
-        listProducts.VerTotalPrecios()
-        listProducts.totalPrecios(datosProductos.primeroprecioProducto, datosProductos.segundoprecioProducto)
-
+        cartShoppingPage.validarNombreProduct(datosProductos.primerProducto)
+        cartShoppingPage.validarNombreProduct(datosProductos.segundoProducto)
+        cartShoppingPage.validarprecioProduct(datosProductos.primeroprecioProducto, datosProductos.primerProducto)
+        cartShoppingPage.validarprecioProduct(datosProductos.segundoprecioProducto, datosProductos.segundoProducto)
+        cartShoppingPage.VerTotalPrecios()
+        cartShoppingPage.totalPrecios(`${datosProductos.primeroprecioProducto + datosProductos.segundoprecioProducto}`)
     })
 })
