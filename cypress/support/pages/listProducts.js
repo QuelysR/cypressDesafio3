@@ -9,7 +9,7 @@ export class ListProducts {
         cy.xpath(`//p[contains(text(), '${producto}')]`).should("be.visible");
         cy.xpath(`//button[@value = '${producto}']`).click();
         cy.get(this.aceptarAlerta).click()
-
+        
     }
 
     clickgoShoppingCartButon() {
